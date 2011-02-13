@@ -3,7 +3,7 @@ import os
 class Config:
     def __init__(self):
         self.home_path = os.path.expanduser('~')
-        self.app_path = "Dropbox/propuesta-plugins"
+        self.app_path = "trabajo/orca-git/pluglib-abc"
         self.ui_path = "ui/"
     
     def get_path(self):

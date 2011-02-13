@@ -38,7 +38,7 @@ class GConfKeysDict(dict):
             dict.__setitem__(self, key, val)
 
 # Partially based on http://crysol.org/node/758
-class GConfStore(object):
+class GConfStore(IConfigurable):
 #    zope.interface.implements(IConfigurable)
                 
     defaults = {}
@@ -88,7 +88,7 @@ class GConfStore(object):
 import os
 import cPickle
 
-class PickleStore(object):
+class PickleStore(IConfigurable):
 #    zope.interface.implements(IConfigurable)
                 
     defaults = {}

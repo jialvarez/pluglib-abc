@@ -1,10 +1,9 @@
 # - coding: utf-8 -
 
-import hamster.pluglib
-from hamster.pluglib.confstore import GConfStore
+from pluglib.confstore import GConfStore
+from pluglib.interfaces import IPlugin
 
-@hamster.pluglib.register
-class testPlugin(GConfStore):
+class testPlugin(GConfStore, IPlugin):
     name = 'Test Plugin'
     description = 'A testing plugin for code tests' 
     version = '0.1pre'

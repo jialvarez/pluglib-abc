@@ -8,7 +8,7 @@ from pluglib.confstore import GConfStore
 PLUGINS_DIR = ['baseplugins']
 GCONF_DIR = '/apps/popoter/applet/plugins'
 
-class TestPluginManager(ModulePluginManager, GConfStore, gobject.GObject):
+class TestPluginManager(ModulePluginManager, GConfStore):
 
     __gsignals__ = {
         'plugin_enabled': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -24,7 +24,7 @@ class TestPluginManager(ModulePluginManager, GConfStore, gobject.GObject):
     def __init__(self):
         ModulePluginManager.__init__(self, PLUGINS_DIR)
         GConfStore.__init__(self, GCONF_DIR)
-        gobject.GObject.__init__(self)
+        #gobject.GObject.__init__(self)
         self.load()
  
     def restore(self):

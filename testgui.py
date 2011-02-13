@@ -1,7 +1,8 @@
 import sys
 import gtk
 import config
-import about_dialog
+import preferences as prefs
+import pluglib
  
 class TestGUI:
 
@@ -14,6 +15,9 @@ class TestGUI:
         self.window = self.builder.get_object('window1')
         self.window.show_all()
         self.builder.connect_signals(self)
+        
+        from plugin_manager import plugmanager
+        plugmanager.scan_plugins()
 
     def about(self, widget):
         """Display the about window."""
@@ -38,11 +42,7 @@ class TestGUI:
         if self.preferences:
             return
 
-        self.builder.add_from_file(self._cfg.path+'preferences.ui')
-        self.preferences = self.builder.get_object("preferences_window")
-        self.close_button = self.builder.get_object("close_button")
-        self.close_button.connect('clicked', self.onPluginCloseButton)
-        self.preferences.show()
+        p = prefs.Preferences()
 
     def onPluginCloseButton(self, widget):
         self.preferences.destroy()
