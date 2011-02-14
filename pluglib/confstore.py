@@ -87,7 +87,6 @@ import os
 import cPickle
 
 class PickleStore(IConfigurable):
-#    zope.interface.implements(IConfigurable)
                 
     defaults = {}
 

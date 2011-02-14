@@ -25,12 +25,9 @@ class Preferences:
         self.plugconf_btn = self.builder.get_object("plugconf_btn")
         self.plugabout_dialog = self.builder.get_object("plugabout_dialog")
        
-        print "plugins detectados: " + str(plugmanager.get_plugins())
-
         print plugmanager.get_plugins()
 
         for plugin_id, plugin in plugmanager.get_plugins():
-            print "el plugin es: " + str(type(plugin))
             if plugin.name != None:
                 self.plugins_store.append([plugmanager.is_plugin_enabled(plugin_id), None, plugin.name, plugin_id])
         

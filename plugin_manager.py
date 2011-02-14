@@ -21,7 +21,6 @@ class SignalManager(gobject.GObject):
         gobject.GObject.__init__(self)
 
     def emit_signal(self, signal_str, plugin_name):
-        print "Emiting signal " + str(signal_str) + " to " + str(plugin_name)
         self.emit(signal_str, plugin_name)
 
 class TestPluginManager(ModulePluginManager, GConfStore):
@@ -58,7 +57,6 @@ class TestPluginManager(ModulePluginManager, GConfStore):
         if emit:
             self.signal_manager.emit_signal('plugin_enabled', plugin_name)
 
-
     def disable_plugin(self, plugin_name, emit=True):
         super(TestPluginManager, self).disable_plugin(plugin_name)
 
@@ -76,6 +74,4 @@ class TestPluginManager(ModulePluginManager, GConfStore):
             raise PluginManagerError, 'No plugin named %s' % plugin_name
 
 plugmanager = TestPluginManager()
-
-
 
