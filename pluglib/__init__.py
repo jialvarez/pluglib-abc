@@ -21,8 +21,6 @@ import interfaces
 
 def verify_conf_dialog(plugin_class):
     return issubclass(plugin_class, interfaces.IConfigureDialog)
-    #return interfaces.IConfigureDialog.implementedBy(plugin_class)
     
 def verify_configurable(plugin_obj):
     return isinstance(plugin_obj, interfaces.IConfigureDialog)
-    #return interfaces.IConfigureDialog.providedBy(plugin_obj)

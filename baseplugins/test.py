@@ -1,7 +1,7 @@
 # - coding: utf-8 -
 
 from pluglib.confstore import GConfStore
-from pluglib.interfaces import IPlugin
+from pluglib.interfaces import *
 
 class gConfPlugin(GConfStore):
     defaults = {
@@ -21,10 +21,9 @@ class testPlugin(IPlugin):
     version = '0.1pre'
     authors = ['J. Félix Ontañón <felixonta@gmail.com>', 'J. Ignacio Álvarez <neonigma@gmail.com>']
     website = 'http://fontanon.org'
-    #icon = 'gtk-missing-image'
+    icon = 'gtk-missing-image'
 
     def __init__(self):
         gc_plug = gConfPlugin()
 
-
-
+IPlugin.register(testPlugin)

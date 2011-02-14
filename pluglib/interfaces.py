@@ -23,6 +23,8 @@ import abc
 class IPlugin(object):
     """Every plugin must implement this interface"""
 
+    __metaclass__ = abc.ABCMeta
+
     ############### ATTRIBS ################
 
     def name_getter(self):
@@ -63,7 +65,6 @@ class IPlugin(object):
                                                                                   
     # Authors of the plugin, separated by comma
     authors = abc.abstractproperty(authors_getter, authors_setter)                    
-   
 
     def website_getter(self):
         """ You must implement this method in your class """
@@ -73,7 +74,6 @@ class IPlugin(object):
                                                                                   
     # Website of the plugin
     website = abc.abstractproperty(website_getter, website_setter)                    
-
 
     def icon_getter(self):
         """ You must implement this method in your class """

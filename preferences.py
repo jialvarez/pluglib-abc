@@ -25,7 +25,7 @@ class Preferences:
         self.plugconf_btn = self.builder.get_object("plugconf_btn")
         self.plugabout_dialog = self.builder.get_object("plugabout_dialog")
        
-        print plugmanager.get_plugins()
+        print "Plugins detected: " + str(plugmanager.get_plugins())
 
         for plugin_id, plugin in plugmanager.get_plugins():
             if plugin.name != None:
@@ -71,7 +71,15 @@ class Preferences:
 
         if selected:
             plugin = plugmanager.get_plugin_class(model[selected][3])
+
             if plugin:
+                plugin_id = plugmanager.get_plugin_status(plugin.name)
+                
+                if not plugin_id:
+                    print plugin.name + " is disabled"
+                else:
+                    print plugin.name + " is enabled"
+
                 self.plugabout_dialog.set_name(plugin.name)
                 self.plugabout_dialog.set_version(plugin.version)
                 self.plugabout_dialog.set_authors(plugin.authors)

@@ -4,6 +4,7 @@ import gobject
 import pluglib
 from pluglib.manager import ModulePluginManager
 from pluglib.confstore import GConfStore
+from pluglib.interfaces import PluginManagerError
 
 PLUGINS_DIR = ['baseplugins']
 GCONF_DIR = '/apps/popoter/applet/plugins'
@@ -72,6 +73,12 @@ class TestPluginManager(ModulePluginManager, GConfStore):
             return self.plugins[plugin_name]['class']
         else:
             raise PluginManagerError, 'No plugin named %s' % plugin_name
+
+    def get_plugin_status(self, plugin_name):
+        for plugin_id, plugin in plugmanager.get_plugins():
+            if plugin.name != None and plugin_name == plugin.name:
+                if plugmanager.is_plugin_enabled(plugin_id): return plugin_id
+                else: return False
 
 plugmanager = TestPluginManager()
 
