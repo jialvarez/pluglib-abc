@@ -3,11 +3,17 @@
 from pluglib.confstore import GConfStore
 from pluglib.interfaces import IPlugin
 
-class testPlugin(GConfStore, IPlugin):
+class gConfPlugin(GConfStore):
+    def __init__(self):
+        super(gConfPlugin, self).__init__('/apps/popoter/plugins/test')
+        self.save()
+        print 'Hello World!'
+
+class testPlugin(IPlugin):
     name = 'Test Plugin'
     description = 'A testing plugin for code tests' 
     version = '0.1pre'
-    authors = ['J. Félix Ontañón <felixonta@gmail.com>']
+    authors = ['J. Félix Ontañón <felixonta@gmail.com>', 'J. Ignacio Álvarez <neonigma@gmail.com>']
     website = 'http://fontanon.org'
     #icon = 'gtk-missing-image'
 
@@ -18,5 +24,7 @@ class testPlugin(GConfStore, IPlugin):
     }
 
     def __init__(self):
-        super(testPlugin, self).__init__('/apps/hamster-applet/plugins/test')
-        print 'Hello World!'
+        gc_plug = gConfPlugin()
+
+
+

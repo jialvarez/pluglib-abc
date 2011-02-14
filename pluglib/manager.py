@@ -47,7 +47,7 @@ class ModulePluginManager(IPluginManager):
             module = imp.load_module(module_name, modfile, name, desc)
             plugins.update([(name, {'class': klass, 'object': None}) 
                 for (name, klass) in inspect.getmembers(module, inspect.isclass)
-                if issubclass(klass, IPlugin)])
+                if issubclass(klass, IPlugin) and name != "IPlugin"])
         except Exception, e:
             raise PluginManagerError, 'Cannot load module %s: %s' % \
                 (name, e)
@@ -72,15 +72,23 @@ class ModulePluginManager(IPluginManager):
     def enable_plugin(self, plugin_name):
         if not self.is_plugin_enabled(plugin_name):
             plugin_class = self.plugins[plugin_name]['class']
+
+            if issubclass(plugin_class, IDependenciesChecker) \
+                    and not plugin_class.check_dependencies():
+                raise PluginManagerError, 'Cannot satisfy dependencies for %s: %s' % \
+                    (plugin_name, plugin_class.check_err)
+
             plugin_object = plugin_class()
-            plugin_object.load()
+            if isinstance(plugin_object, IConfigurable):
+	        plugin_object.load()
             
             self.plugins[plugin_name]['object'] = plugin_object
 
     def disable_plugin(self, plugin_name):
         if self.is_plugin_enabled(plugin_name):
             plugin_object = self.plugins[plugin_name]['object']
-            plugin_object.save()
+            if isinstance(plugin_object, IConfigurable):
+	        plugin_object.save()
             self.plugins[plugin_name]['object'] = None
 
     def get_plugins(self):
@@ -88,7 +96,10 @@ class ModulePluginManager(IPluginManager):
             in self.plugins.items()]
 
     def is_plugin_enabled(self, plugin_name):
+        if self.plugins.has_key(plugin_name):
             return self.plugins[plugin_name]['object'] is not None
+        else:
+            raise PluginManagerError, 'No plugin named %s' % plugin_name
 
     _plugin_paths = None
 

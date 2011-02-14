@@ -19,11 +19,6 @@
 
 import interfaces
 
-def register(cls):
-    print "registering " + str(cls) + " as zope interface"
-    zope.interface.classImplements(cls, interfaces.IPlugin)
-    return cls
-
 def verify_conf_dialog(plugin_class):
     return issubclass(plugin_class, interfaces.IConfigureDialog)
     #return interfaces.IConfigureDialog.implementedBy(plugin_class)

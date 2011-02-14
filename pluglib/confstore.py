@@ -19,7 +19,6 @@
 
 import gconf
 import types
-#import zope.interface
 
 from interfaces import IConfigurable, PluginError
 
@@ -39,7 +38,6 @@ class GConfKeysDict(dict):
 
 # Partially based on http://crysol.org/node/758
 class GConfStore(IConfigurable):
-#    zope.interface.implements(IConfigurable)
                 
     defaults = {}
 

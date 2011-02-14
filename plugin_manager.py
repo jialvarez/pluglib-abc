@@ -8,7 +8,7 @@ from pluglib.confstore import GConfStore
 PLUGINS_DIR = ['baseplugins']
 GCONF_DIR = '/apps/popoter/applet/plugins'
 
-class TestPluginManager(ModulePluginManager, GConfStore):
+class SignalManager(gobject.GObject):
 
     __gsignals__ = {
         'plugin_enabled': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -17,14 +17,25 @@ class TestPluginManager(ModulePluginManager, GConfStore):
                 (gobject.TYPE_PYOBJECT,)),
     }
 
+    def __init__(self):
+        gobject.GObject.__init__(self)
+
+    def emit_signal(self, signal_str, plugin_name):
+        print "Emiting signal " + str(signal_str) + " to " + str(plugin_name)
+        self.emit(signal_str, plugin_name)
+
+class TestPluginManager(ModulePluginManager, GConfStore):
+
     defaults = {
         'active_plugins': [],
     }
+
+    signal_manager = SignalManager()
  
     def __init__(self):
         ModulePluginManager.__init__(self, PLUGINS_DIR)
         GConfStore.__init__(self, GCONF_DIR)
-        #gobject.GObject.__init__(self)
+
         self.load()
  
     def restore(self):
@@ -45,7 +56,8 @@ class TestPluginManager(ModulePluginManager, GConfStore):
         self.save()
 
         if emit:
-            self.emit('plugin_enabled', plugin_name)
+            self.signal_manager.emit_signal('plugin_enabled', plugin_name)
+
 
     def disable_plugin(self, plugin_name, emit=True):
         super(TestPluginManager, self).disable_plugin(plugin_name)
@@ -55,7 +67,7 @@ class TestPluginManager(ModulePluginManager, GConfStore):
         self.save()
 
         if emit:
-            self.emit('plugin_disabled', plugin_name)
+            self.signal_manager.emit_signal('plugin_disabled', plugin_name)
 
     def get_plugin_class(self, plugin_name):
         if self.plugins.has_key(plugin_name):
@@ -64,3 +76,6 @@ class TestPluginManager(ModulePluginManager, GConfStore):
             raise PluginManagerError, 'No plugin named %s' % plugin_name
 
 plugmanager = TestPluginManager()
+
+
+
